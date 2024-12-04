@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffe4e1; /* Light pink background */
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 2px solid #ff69b4;
+        }
+
+        .container h2 {
+            color: #ff69b4;
+        }
+
+        #reader {
+            width: 100%;
+            margin: 20px auto;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ff69b4;
+            border-radius: 5px;
+            background-color: #fff0f5;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .card-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .card img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            border: 2px solid #ff69b4;
+            border-radius: 10px;
+            padding: 10px;
+            background-color: #fff;
+        }
+
+        .payment-button {
+            margin-top: 20px;
+        }
+
+        .payment-button a {
+            text-decoration: none;
+        }
+
+        .payment-button button {
+            background-color: #ff69b4;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        .payment-button button:hover {
+            background-color: #e75480;
+        }
+    </style>
+</head>
+<body>
+    <!-- QR Code Payment Section -->
+    <div class="card-container">
+        <h1>Pay Using This QR Code</h1>
+        <!-- QR Code -->
+        <img src="images/12.png" alt="QR Code" height="600" width="400">
+        
+        <!-- Payment Done Button -->
+        <div class="payment-button">
+            <a href="success.html">
+                <button>Payment Done</button>
+            </a>
+        </div>
+    </div>
+
+    
+
+    <!-- Include Html5-Qrcode Library -->
+    <script src="https://cdn.jsdelivr.net/npm/html5-qrcode/minified/html5-qrcode.min.js"></script>
+    <script>
+        const qrCodeReader = new Html5Qrcode("reader");
+
+        // Start scanning
+        qrCodeReader.start(
+            { facingMode: "environment" }, // Use the back camera if available
+            {
+                fps: 10, // Frame per second for the scanner
+                qrbox: 250 // Size of the QR scanning box
+            },
+            (decodedText, decodedResult) => {
+                // Handle the decoded QR code text
+                document.getElementById("result").innerText = `Scanned Data: ${decodedText}`;
+                qrCodeReader.stop(); // Stop scanning after success
+            },
+            (error) => {
+                // Handle scanning errors
+                console.warn(`QR Code scanning error: ${error}`);
+            }
+        ).catch((err) => {
+            console.error(`Unable to start QR Code scanning: ${err}`);
+        });
+    </script>
+</body>
+</html>
